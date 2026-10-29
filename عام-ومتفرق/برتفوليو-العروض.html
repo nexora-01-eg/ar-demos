@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برتفوليو العروض | Portfolio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:#14141f;--card-hover:#1a1a2e;--accent:#6c63ff;--accent2:#00d4aa;--text:#e0e0e0;--text-dim:#888;--border:#222;--glow:rgba(108,99,255,0.15)}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh}
+.header{background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3e 50%,#0a0a1a 100%);padding:60px 40px 40px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 30% 50%,var(--glow),transparent 50%);pointer-events:none}
+.header h1{font-size:2.5em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;position:relative}
+.header p{color:var(--text-dim);font-size:1.1em;position:relative}
+.stats{display:flex;justify-content:center;gap:40px;margin-top:30px;position:relative}
+.stat{text-align:center}
+.stat-num{font-size:2em;font-weight:700;color:var(--accent)}
+.stat-label{color:var(--text-dim);font-size:0.9em}
+.controls{padding:20px 40px;display:flex;gap:15px;flex-wrap:wrap;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.search{background:var(--card);border:1px solid var(--border);color:var(--text);padding:12px 20px;border-radius:10px;font-size:1em;width:300px;direction:rtl}
+.search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text-dim);padding:8px 16px;border-radius:20px;cursor:pointer;transition:all 0.3s;font-size:0.9em}
+.filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding:30px 40px;max-width:1600px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 10px 40px rgba(108,99,255,0.2)}
+.card-preview{height:200px;background:#111;position:relative;overflow:hidden}
+.card-preview iframe{width:200%;height:200%;transform:scale(0.5);transform-origin:top right;border:none;pointer-events:none;position:absolute;top:0;right:0}
+.card-info{padding:16px}
+.card-title{font-size:1em;font-weight:600;margin-bottom:6px;color:#fff}
+.card-meta{display:flex;justify-content:space-between;align-items:center}
+.card-category{font-size:0.8em;color:var(--accent);background:var(--glow);padding:3px 10px;border-radius:10px}
+.card-size{font-size:0.8em;color:var(--text-dim)}
+.card-link{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(108,99,255,0.9);opacity:0;transition:opacity 0.3s;text-decoration:none;color:#fff;font-size:1.2em;font-weight:600}
+.card:hover .card-link{opacity:1}
+.counter{text-align:center;padding:10px;color:var(--text-dim)}
+footer{text-align:center;padding:30px;color:var(--text-dim);border-top:1px solid var(--border)}
+@media(max-width:768px){.grid{grid-template-columns:1fr;padding:15px}.header{padding:30px 20px}.header h1{font-size:1.8em}.controls{padding:15px}}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>برتفوليو العروض</h1>
+<p>127 عرض تفاعلي — جاهز للمعاينة والمشاركة</p>
+<div class="stats">
+<div class="stat"><div class="stat-num" id="total-count">127</div><div class="stat-label">عرض</div></div>
+<div class="stat"><div class="stat-num" id="category-count">0</div><div class="stat-label">قسم</div></div>
+<div class="stat"><div class="stat-num" id="size-total">0</div><div class="stat-label">MB</div></div>
+</div>
+</div>
+<div class="controls">
+<input type="text" class="search" id="search" placeholder="ابحث عن عرض...">
+<div class="filters" id="filters"></div>
+</div>
+<div class="counter" id="counter">عرض 127 من 127</div>
+<div class="grid" id="grid"></div>
+<footer>برتفوليو العروض — جميع الحقوق محفوظة</footer>
+<script>
+const presentations=[
+{f:"آيرون-كوتش-جيم.html",t:"آيرون كوتش — إدارة الجيم",c:"رياضة",s:569},
+{f:"ابتسامة-عيادة-منزلي.html",t:"ابتسامة — عيادة منزلي",c:"طبي",s:16},
+{f:"ابوتيكا-نظام-صيدلية.html",t:"ابوتيكا — نظام إدارة الصيدلية",c:"طبي",s:26},
+{f:"أثاثي-محل-أثاث.html",t:"أثاثي — محل أثاث",c:"تجارة",s:12},
+{f:"الأسطى-صالون.html",t:"الأسطى — إدارة الصالون",c:"خدمات",s:15},
+{f:"الشفاء-صيدلية.html",t:"الشفاء — صيدلية",c:"طبي",s:21},
+{f:"العطّار-صيدلية-ذكية.html",t:"العطّار — صيدلية ذكية",c:"طبي",s:49},
+{f:"أليف-عيادة-بيطرية.html",t:"أليف — عيادة بيطرية",c:"طبي",s:17},
+{f:"أمل-د-سلمى-خصوبة-VIP.html",t:"أمل — د. سلمى خصوبة VIP",c:"طبي",s:38},
+{f:"أوتيليه-لمسة-خياطة.html",t:"أوتيليه لمسة — خياطة وتفصيل",c:"خدمات",s:20},
+{f:"أورفيتا-بوابة-مرضى.html",t:"أورفيتا — بوابة المرضى",c:"طبي",s:49},
+{f:"بّل-عناية-مركزة.html",t:"بّل — عناية مركزة",c:"طبي",s:13},
+{f:"تجارة-عالمية-استيراد.html",t:"تجارة عالمية — استيراد وتصدير",c:"تجارة",s:18},
+{f:"تجارتي-تجارة-اجتماعية.html",t:"تجارتي — تجارة اجتماعية",c:"تجارة",s:27},
+{f:"تشطيب-مقاول.html",t:"تشطيب — إدارة مشاريع مقاولات",c:"خدمات",s:16},
+{f:"تك-فيكس-صيانة.html",t:"تك فيكس — صيانة موبايلات",c:"خدمات",s:13},
+{f:"توازن-تغذية.html",t:"توازن — رفيق التغذية",c:"صحة",s:18},
+{f:"حركة-د-طارق-عظام-VIP.html",t:"حركة — د. طارق عظام VIP",c:"طبي",s:39},
+{f:"حركة-علاج-طبيعي.html",t:"حركة — علاج طبيعي منزلي",c:"طبي",s:17},
+{f:"د-أحمد-الفرماوي-قلب.html",t:"د. أحمد الفرماوي — قلب",c:"طبي",s:16},
+{f:"د-أحمد-المصري-القلب.html",t:"d. أحمد المصري — قلب",c:"طبي",s:13},
+{f:"د-أحمد-راغب-أطفال.html",t:"d. أحمد راغب — أطفال",c:"طبي",s:25},
+{f:"د-باسم-الشوربجي-عيون.html",t:"d. باسم الشوربجي — عيون",c:"طبي",s:16},
+{f:"د-توفيق-خصوبة.html",t:"d. توفيق — خصوبة",c:"طبي",s:157},
+{f:"د-رانيا-توفيق-خصوبة.html",t:"d. رانيا توفيق — خصوبة",c:"طبي",s:11},
+{f:"د-رنا-الديب-أسنان.html",t:"d. رنا الديب — أسنان",c:"طبي",s:26},
+{f:"د-سلمى-عزت-عيون.html",t:"d. سلمى عزت — عيون",c:"طبي",s:25},
+{f:"د-سلمى-فؤاد-نفسي.html",t:"d. سلمى فؤاد — نفسي",c:"طبي",s:9},
+{f:"د-طارق-منصور-عظام.html",t:"d. طارق منصور — عظام",c:"طبي",s:162},
+{f:"د-علياء-رشدي-خصوبة.html",t:"d. علياء رشدي — خصوبة",c:"طبي",s:17},
+{f:"د-كريم-الجندي-رياضة.html",t:"d. كريم الجندي — رياضة",c:"طبي",s:13},
+{f:"د-كريم-عادل-عيون-VIP.html",t:"d. كريم عادل — عيون VIP",c:"طبي",s:13},
+{f:"د-كريم-عبدالحميد-قسطرة.html",t:"d. كريم عبدالحميد — قسطرة",c:"طبي",s:27},
+{f:"د-كريم-عبدالحميد-قلب.html",t:"d. كريم عبدالحميد — قلب",c:"طبي",s:161},
+{f:"د-محمد-الجندي-عظام.html",t:"d. محمد الجندي — عظام",c:"طبي",s:24},
+{f:"د-محمود-سليم-عظام.html",t:"d. محمود سليم — عظام",c:"طبي",s:13},
+{f:"د-مريم-أطفال.html",t:"d. مريم — أطفال",c:"طبي",s:163},
+{f:"د-منصور-جلدية.html",t:"d. منصور — جلدية",c:"طبي",s:157},
+{f:"د-ندى-الحلواني-جلدية.html",t:"d. ندى الحلواني — جلدية",c:"طبي",s:17},
+{f:"د-نور-الهدى-جلدية.html",t:"d. نور الهدى — جلدية",c:"طبي",s:12},
+{f:"د-نور-الهدى-فتحي-أطفال.html",t:"d. نور الهدى فتحي — أطفال",c:"طبي",s:14},
+{f:"د-ياسمين-توفيق-جلدية.html",t:"d. ياسمين توفيق — جلدية",c:"طبي",s:24},
+{f:"د-يوسف-الشريف-تقويم.html",t:"d. يوسف الشريف — تقويم أسنان",c:"طبي",s:12},
+{f:"دروس-سنتر-خصوصي.html",t:"دروس — سنتر خصوصي",c:"تعليم",s:23},
+{f:"دروسي-إدارة-دروس.html",t:"دروسي — إدارة دروس خصوصية",c:"تعليم",s:44},
+{f:"دريفلاين-تأجير-سيارات.html",t:"دريفلاين — تأجير سيارات",c:"خدمات",s:13},
+{f:"دقيقة-توصيل-سريع.html",t:"دقيقة — توصيل سريع",c:"خدمات",s:22},
+{f:"رحلتي-سياحة.html",t:"رحلتي — سياحة",c:"سفر",s:154},
+{f:"رفيق-بيطرية.html",t:"رفيق — عيادة بيطرية",c:"طبي",s:157},
+{f:"رفيق-مساعد-يومي.html",t:"رفيق — مساعد يومي",c:"تطبيقات",s:20},
+{f:"سالوني-صالون.html",t:"سالوني — صالون",c:"خدمات",s:597},
+{f:"سكن-عقارات.html",t:"سكن — عقارات",c:"عقارات",s:12},
+{f:"سكينة-د-ياسمين-نفسي-VIP.html",t:"سكينة — d. ياسمين نفسي VIP",c:"طبي",s:37},
+{f:"سوبر-البركة-نقطة-بيع.html",t:"سوبر البركة — نقطة بيع",c:"تجارة",s:12},
+{f:"سوبرماركت-إدارة.html",t:"سوبرماركت — إدارة",c:"تجارة",s:20},
+{f:"صنايعي-خدمات-منزل.html",t:"صنايعي — خدمات منزل",c:"خدمات",s:20},
+{f:"طبق-مطعم.html",t:"طبق — مطعم",c:"مطاعم",s:15},
+{f:"عدل-مكتب-محاماة.html",t:"عدل — مكتب محاماة",c:"قانون",s:8},
+{f:"عربيتك-سوق-سيارات.html",t:"عربيتك — سوق سيارات",c:"سيارات",s:27},
+{f:"عطر-الشرق-عطور.html",t:"عطر الشرق — عطور",c:"تجارة",s:19},
+{f:"عقاري-سمسرة.html",t:"عقاري — سمسرة عقارية",c:"عقارات",s:21},
+{f:"عقاري-وسطاء-عقاريين.html",t:"عقاري — وسطاء عقاريين",c:"عقارات",s:27},
+{f:"عيادتي-أسنان.html",t:"عيادتي — أسنان",c:"طبي",s:24},
+{f:"عيادتي-طب-منزلي.html",t:"عيادتي — طب منزلي",c:"طبي",s:600},
+{f:"فاتورة-برو-فواتير.html",t:"فاتورة برو — فواتير",c:"تجارة",s:74},
+{f:"فاتورتي-فواتير.html",t:"فاتورتي — فواتير",c:"تجارة",s:19},
+{f:"فالكون-إسعاف.html",t:"فالكون — إسعاف",c:"طبي",s:18},
+{f:"فرحة-د-كريم-أطفال-VIP.html",t:"فرحة — d. كريم أطفال VIP",c:"طبي",s:38},
+{f:"فروعي-نظام-عيادات.html",t:"فروعي — نظام عيادات",c:"طبي",s:21},
+{f:"فريم-استوديو-تصوير.html",t:"فريم — استوديو تصوير",c:"خدمات",s:9},
+{f:"فنجان-كافيه.html",t:"فنجان — كافيه",c:"مطاعم",s:42},
+{f:"قرص-مخبوزات.html",t:"قرص — مخبوزات",c:"مطاعم",s:14},
+{f:"قماشة-بوتيك.html",t:"قماشة — بوتيك",c:"تجارة",s:15},
+{f:"كوتش-استوديو.html",t:"كوتش — استوديو رياضي",c:"رياضة",s:16},
+{f:"لغتي-معهد-لغات.html",t:"لغتي — معهد لغات",c:"تعليم",s:12},
+{f:"لمحة-نظارات.html",t:"لمحة — نظارات",c:"تجارة",s:17},
+{f:"لمسة-تصميم-داخلي.html",t:"لمسة — تصميم داخلي",c:"تصميم",s:157},
+{f:"لمسة-صالون.html",t:"لمسة — صالون",c:"خدمات",s:44},
+{f:"لمعان-د-رنا-جلدية-VIP.html",t:"لمعان — d. رنا جلدية VIP",c:"طبي",s:38},
+{f:"مشرق-سياحة.html",t:"مشرق — سياحة",c:"سفر",s:22},
+{f:"مطبخ-لوحة-تحكم.html",t:"مطبخ — لوحة تحكم",c:"مطاعم",s:528},
+{f:"مطبعة-الإبداع.html",t:"مطبعة الإبداع — طباعة",c:"خدمات",s:13},
+{f:"مطبعة-برو.html",t:"مطبعة برو — مطابع",c:"خدمات",s:19},
+{f:"معرض-إيليت-سيارات.html",t:"معرض إيليت — سيارات",c:"سيارات",s:20},
+{f:"معينك-إيجار-أجهزة.html",t:"معينك — إيجار أجهزة طبية",c:"طبي",s:19},
+{f:"مكتب-محاماة-إدارة.html",t:"مكتب محاماة — إدارة",c:"قانون",s:22},
+{f:"مناسباتنا-أفراح.html",t:"مناسباتنا — أفراح",c:"خدمات",s:12},
+{f:"منصة-بيانات-طبية.html",t:"منصة بيانات طبية",c:"طبي",s:610},
+{f:"منهج-تعلّم-رقمي.html",t:"منهج — تعلّم رقمي",c:"تعليم",s:35},
+{f:"موتور-ورشة.html",t:"موتور — ورشة",c:"سيارات",s:15},
+{f:"ميد-فلو-حجز-طبي.html",t:"ميد فلو — حجز طبي",c:"طبي",s:182},
+{f:"ميد-كور-مستشفى.html",t:"ميد كور — مستشفى",c:"طبي",s:45},
+{f:"ميريديان-الأطباء.html",t:"ميريديان — الأطباء",c:"ميريديان",s:19},
+{f:"ميريديان-الخدمات.html",t:"ميريديان — الخدمات",c:"ميريديان",s:27},
+{f:"ميريديان-المعرض.html",t:"ميريديان — المعرض",c:"ميريديان",s:12},
+{f:"ميريديان-تواصل.html",t:"ميريديان — تواصل",c:"ميريديان",s:18},
+{f:"ميريديان-مختبر-أشعة.html",t:"ميريديان — مختبر أشعة",c:"ميريديان",s:26},
+{f:"ميريديان-مدونة.html",t:"ميريديان — مدونة",c:"ميريديان",s:14},
+{f:"ميريديان-مستشفى-عام.html",t:"ميريديان — مستشفى عام",c:"ميريديان",s:35},
+{f:"ميريديان-من-نحن.html",t:"ميريديان — من نحن",c:"ميريديان",s:15},
+{f:"نادي-فيت-إدارة.html",t:"نادي فيت — إدارة",c:"رياضة",s:24},
+{f:"ناقل-شحن.html",t:"ناقل — شحن",c:"لوجستيات",s:24},
+{f:"نايل-كير-مطالبات.html",t:"نايل كير — مطالبات",c:"طبي",s:25},
+{f:"نبض-جيم.html",t:"نبض — جيم",c:"رياضة",s:43},
+{f:"نبض-نادِ-رياضي.html",t:"نبض — نادٍ رياضي",c:"رياضة",s:23},
+{f:"نبضة-د-مازن-قلب-VIP.html",t:"نبضة — d. مازن قلب VIP",c:"طبي",s:38},
+{f:"نبوغ-دروس-خصوصية.html",t:"نبوغ — دروس خصوصية",c:"تعليم",s:16},
+{f:"نُزل-فنادق.html",t:"نُزل — فنادق",c:"سفر",s:24},
+{f:"نظام-علاقة-مرضى.html",t:"نظام علاقة مرضى",c:"طبي",s:606},
+{f:"نغم-أكاديمية-موسيقى.html",t:"نغم — أكاديمية موسيقى",c:"تعليم",s:20},
+{f:"نقل-إكسبرس.html",t:"نقل إكسبرس",c:"لوجستيات",s:20},
+{f:"نقلي-لوجستيات.html",t:"نقلي — لوجستيات",c:"لوجستيات",s:157},
+{f:"نيكسيرا-عرض-منصة.html",t:"نيكسيرا — عرض المنصة",c:"نيكسيرا",s:14},
+{f:"نيكسيرا-لوحة-الرئيس.html",t:"نيكسيرا — لوحة الرئيس",c:"نيكسيرا",s:721},
+{f:"نيكسيرا-لوحة-عيادة.html",t:"نيكسيرا — لوحة عيادة",c:"نيكسيرا",s:612},
+{f:"نيكسيرا-نظام-طبي.html",t:"نيكسيرا — نظام طبي",c:"نيكسيرا",s:60},
+{f:"هب-سبايس-مساحات-عمل.html",t:"هب سبايس — مساحات عمل",c:"خدمات",s:18},
+{f:"ورد-رفيق-ديني.html",t:"ورد — رفيق ديني",c:"تطبيقات",s:22},
+{f:"ورشة-إدارة.html",t:"ورشة — إدارة",c:"سيارات",s:15},
+{f:"ورشة-سيارات.html",t:"ورشة — سيارات",c:"سيارات",s:23},
+{f:"ورشتي-صيانة.html",t:"ورشتي — صيانة",c:"سيارات",s:157},
+{f:"ورين-عيادة.html",t:"ورين — عيادة",c:"طبي",s:26},
+{f:"وصلها-شحن.html",t:"وصلها — شحن",c:"لوجستيات",s:16},
+{f:"وكالة-سياحة-إدارة.html",t:"وكالة سياحة — إدارة",c:"سفر",s:155},
+{f:"يناكل-عيادة-أسنان.html",t:"يناكل — عيادة أسنان",c:"طبي",s:73},
+{f:"يوسف-وملك-دعوة-زفاف.html",t:"يوسف وملك — دعوة زفاف",c:"مناسبات",s:15},
+{f:"vitalis-telemedicine-room.html",t:"Vitalis — Telemedicine",c:"طبي",s:19}
+];
+const catColors={'طبي':'#6c63ff','تجارة':'#00d4aa','خدمات':'#ff6b6b','رياضة':'#ffd93d','تعليم':'#4ecdc4','سفر':'#45b7d1','سيارات':'#96ceb4','مطاعم':'#ff9ff3','قانون':'#54a0ff','عقارات':'#5f27cd','تصميم':'#f368e0','لوجستيات':'#ff9f43','تطبيقات':'#00d2d3','مناسبات':'#ff6348','نيكسيرا':'#6c63ff','ميريديان':'#00d4aa','صحة':'#2ed573'};
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const filtersEl=document.getElementById('filters');
+const counter=document.getElementById('counter');
+const cats=[...new Set(presentations.map(p=>p.c))].sort();
+document.getElementById('category-count').textContent=cats.length;
+const totalMB=Math.round(presentations.reduce((s,p)=>s+(p.s||0),0));
+document.getElementById('size-total').textContent=totalMB;
+let activeFilter='\u0627\u0644\u0643\u0644';
+filtersEl.innerHTML='<button class="filter-btn active" data-cat="\u0627\u0644\u0643\u0644">\u0627\u0644\u0643\u0644</button>'+cats.map(c=>'<button class="filter-btn" data-cat="'+c+'">'+c+'</button>').join('');
+filtersEl.addEventListener('click',e=>{if(!e.target.classList.contains('filter-btn'))return;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');activeFilter=e.target.dataset.cat;render()});
+function render(){const q=search.value.toLowerCase();const filtered=presentations.filter(p=>{const matchCat=activeFilter==='\u0627\u0644\u0643\u0644'||p.c===activeFilter;const matchSearch=!q||p.t.toLowerCase().includes(q)||p.f.toLowerCase().includes(q);return matchSearch&&matchCat});counter.textContent='\u0639\u0631\u0636 '+filtered.length+' \u0645\u0646 '+presentations.length;grid.innerHTML=filtered.map(p=>'<div class="card"><div class="card-preview"><iframe src="'+p.f+'" loading="lazy"></iframe><a class="card-link" href="'+p.f+'" target="_blank">\u0641\u062a\u062d \u0627\u0644\u0639\u0631\u0636</a></div><div class="card-info"><div class="card-title">'+p.t+'</div><div class="card-meta"><span class="card-category" style="background:'+(catColors[p.c]||'#666')+'22;color:'+(catColors[p.c]||'#666')+'">'+p.c+'</span><span class="card-size">'+p.s+'KB</span></div></div></div>').join('')}
+search.addEventListener('input',render);render();
+</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0a0a0a;--black-soft:#121212;--dark-900:#1a1a1a;--dark-800:#232323;--dark-700:#2e2e2e;--dark-600:#3d3d3d;--gray-500:#6b6b6b;--gray-400:#9a9a9a;--gray-300:#c4c4c4;--gray-200:#e0e0e0;--white:#fff;--gold-900:#7a5c1e;--gold-700:#a8802e;--gold-500:#cda449;--gold-400:#d9b968;--gold-300:#e6cd8f;--gold-100:#f4e8c9;--success:#3d9a6a;--danger:#b3453f;--font:'Inter',-apple-system,sans-serif}
+body{font-family:var(--font);background:var(--black);color:var(--gray-200);direction:rtl;min-height:100vh}
+.header{background:linear-gradient(180deg,var(--black) 0%,var(--dark-900) 100%);padding:80px 40px 50px;text-align:center;border-bottom:1px solid var(--dark-700);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(205,164,73,0.08),transparent 60%);pointer-events:none}
+.logo{font-size:1.2em;font-weight:700;color:var(--gold-500);letter-spacing:0.15em;margin-bottom:8px;position:relative}
+.header h1{font-size:3em;font-weight:700;color:var(--white);margin-bottom:12px;position:relative;letter-spacing:-0.02em}
+.header p{color:var(--gray-400);font-size:1.1em;position:relative;max-width:600px;margin:0 auto}
+.stats{display:flex;justify-content:center;gap:60px;margin-top:40px;position:relative}
+.stat{text-align:center}
+.stat-num{font-size:2.5em;font-weight:700;color:var(--gold-500);line-height:1}
+.stat-label{color:var(--gray-500);font-size:0.85em;margin-top:6px;letter-spacing:0.05em}
+.controls{padding:24px 40px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:center;border-bottom:1px solid var(--dark-700);background:var(--black-soft)}
+.search{background:var(--dark-800);border:1px solid var(--dark-600);color:var(--white);padding:14px 24px;border-radius:12px;font-size:1em;width:360px;font-family:var(--font);direction:rtl}
+.search::placeholder{color:var(--gray-500)}
+.search:focus{outline:none;border-color:var(--gold-500);box-shadow:0 0 0 3px rgba(205,164,73,0.15)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.filter-btn{background:var(--dark-800);border:1px solid var(--dark-600);color:var(--gray-400);padding:8px 18px;border-radius:24px;cursor:pointer;transition:all 0.2s;font-size:0.85em;font-family:var(--font)}
+.filter-btn:hover{border-color:var(--gold-500);color:var(--gold-400)}
+.filter-btn.active{background:var(--gold-500);color:var(--black);border-color:var(--gold-500);font-weight:600}
+.tabs{display:flex;gap:0;justify-content:center;margin-top:20px;position:relative}
+.tab{padding:12px 32px;cursor:pointer;color:var(--gray-500);font-weight:500;border-bottom:2px solid transparent;transition:all 0.2s;font-size:0.95em}
+.tab:hover{color:var(--gray-300)}
+.tab.active{color:var(--gold-500);border-bottom-color:var(--gold-500)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:30px 40px;max-width:1400px;margin:0 auto}
+.card{background:var(--dark-900);border:1px solid var(--dark-700);border-radius:16px;overflow:hidden;transition:all 0.3s;cursor:pointer;position:relative;text-decoration:none;display:block}
+.card:hover{transform:translateY(-4px);border-color:var(--gold-500);box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+.card-preview{height:180px;background:var(--dark-800);position:relative;overflow:hidden}
+.card-preview iframe{width:200%;height:200%;transform:scale(0.5);transform-origin:top right;border:none;pointer-events:none;position:absolute;top:0;right:0}
+.card-info{padding:20px}
+.card-title{font-size:0.95em;font-weight:600;margin-bottom:10px;color:var(--white);line-height:1.4}
+.card-meta{display:flex;justify-content:space-between;align-items:center}
+.card-category{font-size:0.75em;padding:4px 12px;border-radius:12px;font-weight:500;letter-spacing:0.03em}
+.cat-live{background:rgba(61,154,106,0.15);color:var(--success)}
+.cat-demo{background:rgba(205,164,73,0.12);color:var(--gold-400)}
+.cat-medical{background:rgba(108,99,255,0.12);color:#6c63ff}
+.cat-commerce{background:rgba(0,212,170,0.12);color:#00d4aa}
+.cat-services{background:rgba(255,107,107,0.12);color:#ff6b6b}
+.cat-education{background:rgba(78,205,196,0.12);color:#4ecdc4}
+.cat-travel{background:rgba(69,183,209,0.12);color:#45b7d1}
+.cat-sports{background:rgba(255,217,61,0.12);color:#ffd93d}
+.cat-food{background:rgba(255,159,243,0.12);color:#ff9ff3}
+.card-link{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(205,164,73,0.95);opacity:0;transition:opacity 0.3s;text-decoration:none;color:var(--black);font-size:1em;font-weight:600;letter-spacing:0.05em}
+.card:hover .card-link{opacity:1}
+.counter{text-align:center;padding:12px;color:var(--gray-500);font-size:0.9em}
+footer{text-align:center;padding:40px;color:var(--gray-500);border-top:1px solid var(--dark-700);font-size:0.85em}
+footer span{color:var(--gold-500)}
+@media(max-width:768px){.grid{grid-template-columns:1fr;padding:16px}.header{padding:40px 20px 30px}.header h1{font-size:2em}.controls{padding:16px}.search{width:100%}.stats{gap:30px}}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="logo">NEXORA</div>
+<h1>برتفوليو المشاريع</h1>
+<p>معرض شامل لكل المشاريع والعروض التفاعلية — مواقع ويب، تطبيقات، أنظمة إدارة، ومنتجات رقمية</p>
+<div class="stats">
+<div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">مشروع</div></div>
+<div class="stat"><div class="stat-num" id="stat-live">0</div><div class="stat-label">عرض تفاعلي</div></div>
+<div class="stat"><div class="stat-num" id="stat-demo">0</div><div class="stat-label">ديمو</div></div>
+<div class="stat"><div class="stat-num" id="stat-cats">0</div><div class="stat-label">قسم</div></div>
+</div>
+<div class="tabs">
+<div class="tab active" data-tab="all">الكل</div>
+<div class="tab" data-tab="live">عروض تفاعلية</div>
+<div class="tab" data-tab="demo">ديموهات</div>
+</div>
+</div>
+<div class="controls">
+<input type="text" class="search" id="search" placeholder="ابحث عن مشروع...">
+<div class="filters" id="filters"></div>
+</div>
+<div class="counter" id="counter"></div>
+<div class="grid" id="grid"></div>
+<footer>صُنع بـ <span>NEXORA</span> — جميع الحقوق محفوظة © 2026</footer>
+<script>
+const allProjects=[
+// === LIVE PRESENTATIONS (AR - عروض) ===
+{t:"نيكسيرا — لوحة الرئيس",c:"نيكسيرا",cat:"نيكسيرا",live:true,f:"D:/AR - عروض/نيكسيرا-لوحة-الرئيس.html"},
+{t:"نيكسيرا — عرض المنصة",c:"نيكسيرا",cat:"نيكسيرا",live:true,f:"D:/AR - عروض/نيكسيرا-عرض-منصة.html"},
+{t:"نيكسيرا — لوحة عيادة",c:"نيكسيرا",cat:"نيكسيرا",live:true,f:"D:/AR - عروض/نيكسيرا-لوحة-عيادة.html"},
+{t:"نيكسيرا — نظام طبي",c:"نيكسيرا",cat:"نيكسيرا",live:true,f:"D:/AR - عروض/نيكسيرا-نظام-طبي.html"},
+{t:"ميريديان — مستشفى عام",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-مستشفى-عام.html"},
+{t:"ميريديان — من نحن",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-من-نحن.html"},
+{t:"ميريديان — الأطباء",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-الأطباء.html"},
+{t:"ميريديان — الخدمات",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-الخدمات.html"},
+{t:"ميريديان — تواصل",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-تواصل.html"},
+{t:"ميريديان — المعرض",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-المعرض.html"},
+{t:"ميريديان — مدونة",c:"ميريديان",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-مدونة.html"},
+{t:"ميريديان — مختبر أشعة",c:"miridian",cat:"طبي",live:true,f:"D:/AR - عروض/ميريديان-مختبر-أشعة.html"},
+{t:"د. كريم عبدالحميد — قلب",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-كريم-عبدالحميد-قلب.html"},
+{t:"د. كريم عبدالحميد — قسطرة",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-كريم-عبدالحميد-قسطرة.html"},
+{t:"د. طارق منصور — عظام VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-طارق-منصور-عظام.html"},
+{t:"د. منصور — جلدية",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-منصور-جلدية.html"},
+{t:"د. مريم — أطفال",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-مريم-أطفال.html"},
+{t:"د. توفيق — خصوبة",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-توفيق-خصوبة.html"},
+{t:"د. ندى الحلواني — جلدية",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-ندى-الحلواني-جلدية.html"},
+{t:"د. ياسمين توفيق — جلدية",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-ياسمين-توفيق-جلدية.html"},
+{t:"د. رنا الديب — أسنان",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-رنا-الديب-أسنان.html"},
+{t:"د. سلمى عزت — عيون",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-سلمى-عزت-عيون.html"},
+{t:"د. نور الهدى — جلدية",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-نور-الهدى-جلدية.html"},
+{t:"د. نور الهدى فتحي — أطفال",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-نور-الهدى-فتحي-أطفال.html"},
+{t:"د. يوسف الشريف — تقويم أسنان",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-يوسف-الشريف-تقويم.html"},
+{t:"د. أحمد الفرماوي — قلب",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-أحمد-الفرماوي-قلب.html"},
+{t:"د. أحمد راغب — أطفال",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-أحمد-راغب-أطفال.html"},
+{t:"د. علياء رشدي — خصوبة",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-علياء-رشدي-خصوبة.html"},
+{t:"د. رانيا توفيق — خصوبة",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-رانيا-توفيق-خصوبة.html"},
+{t:"د. سلمى فؤاد — نفسي",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-سلمى-فؤاد-نفسي.html"},
+{t:"د. كريم الجندي — رياضة",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-كريم-الجندي-رياضة.html"},
+{t:"د. كريم عادل — عيون VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-كريم-عادل-عيون-VIP.html"},
+{t:"د. محمد الجندي — عظام",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-محمد-الجندي-عظام.html"},
+{t:"د. محمود سليم — عظام",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-محمود-سليم-عظام.html"},
+{t:"د. باسم الشوربجي — عيون",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-باسم-الشوربجي-عيون.html"},
+{t:"نبضة — د. مازن قلب VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/نبضة-د-مازن-قلب-VIP.html"},
+{t:"لمعان — د. رنا جلدية VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/لمعان-د-رنا-جلدية-VIP.html"},
+{t:"حركة — د. طارق عظام VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/حركة-د-طارق-عظام-VIP.html"},
+{t:"سكينة — د. ياسمين نفسي VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/سكينة-د-ياسمين-نفسي-VIP.html"},
+{t:"فرحة — د. كريم أطفال VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/فرحة-د-كريم-أطفال-VIP.html"},
+{t:"أمل — د.سلمى خصوبة VIP",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/أمل-د-سلمى-خصوبة-VIP.html"},
+{t:"د. أحمد المصري — قلب",c:"طبي",cat:"طبي",live:true,f:"D:/AR - عروض/د-أحمد-المصري-القلب.html"},
+{t:"العطّار — صيدلية ذكية",c:"صيدلية",cat:"تجارة",live:true,f:"D:/AR - عروض/العطّار-صيدلية-ذكية.html"},
+{t:"ابوتيكا — نظام صيدلية",c:"صيدلية",cat:"تجارة",live:true,f:"D:/AR - عروض/ابوتيكا-نظام-صيدلية.html"},
+{t:"الشفاء — صيدلية",c:"صيدلية",cat:"تجارة",live:true,f:"D:/AR - عروض/الشفاء-صيدلية.html"},
+{t:"فاتورة برو — فواتير",c:"فواتير",cat:"تجارة",live:true,f:"D:/AR - عروض/فاتورة-برو-فواتير.html"},
+{t:"فاتورتي — فواتير",c:"فواتير",cat:"تجارة",live:true,f:"D:/AR - عروض/فاتورتي-فواتير.html"},
+{t:"سوبر البركة — نقطة بيع",c:"سوبرماركت",cat:"تجارة",live:true,f:"D:/AR - عروض/سوبر-البركة-نقطة-بيع.html"},
+{t:"سوبرماركت — إدارة",c:"سوبرماركت",cat:"تجارة",live:true,f:"D:/AR - عروض/سوبرماركت-إدارة.html"},
+{t:"أثاثي — محل أثاث",c:"أثاث",cat:"تجارة",live:true,f:"D:/AR - عروض/أثاثي-محل-أثاث.html"},
+{t:"عطر الشرق — عطور",c:"عطور",cat:"تجارة",live:true,f:"D:/AR - عروض/عطر-الشرق-عطور.html"},
+{t:"قماشة — بوتيك",c:"بوتيك",cat:"تجارة",live:true,f:"D:/AR - عروض/قماشة-بوتيك.html"},
+{t:"لمحة — نظارات",c:"نظارات",cat:"تجارة",live:true,f:"D:/AR - عروض/لمحة-نظارات.html"},
+{t:"عقاري — سمسرة",c:"عقارات",cat:"عقارات",live:true,f:"D:/AR - عروض/عقاري-سمسرة.html"},
+{t:"عقاري — وسطاء عقاريين",c:"عقارات",cat:"عقارات",live:true,f:"D:/AR - عروض/عقاري-وسطاء-عقاريين.html"},
+{t:"سكن — عقارات",c:"سكن",cat:"عقارات",live:true,f:"D:/AR - عروض/سكن-عقارات.html"},
+{t:"عربيتك — سوق سيارات",c:"سيارات",cat:"سيارات",live:true,f:"D:/AR - عروض/عربيتك-سوق-سيارات.html"},
+{t:"معرض إيليت — سيارات",c:"سيارات",cat:"سيارات",live:true,f:"D:/AR - عروض/معرض-إيليت-سيارات.html"},
+{t:"دريفلاين — تأجير سيارات",c:"سيارات",cat:"سيارات",live:true,f:"D:/AR - عروض/دريفلاين-تأجير-سيارات.html"},
+{t:"موتور — ورشة",c:"ورشة",cat:"سيارات",live:true,f:"D:/AR - عروض/موتور-ورشة.html"},
+{t:"ورشة — إدارة",c:"ورشة",cat:"سيارات",live:true,f:"D:/AR - عروض/ورشة-إدارة.html"},
+{t:"ورشة — سيارات",c:"ورشة",cat:"سيارات",live:true,f:"D:/AR - عروض/ورشة-سيارات.html"},
+{t:"ورشتي — صيانة",c:"ورشة",cat:"سيارات",live:true,f:"D:/AR - عروض/ورشتي-صيانة.html"},
+{t:"تك فيكس — صيانة",c:"صيانة",cat:"خدمات",live:true,f:"D:/AR - عروض/تك-فيكس-صيانة.html"},
+{t:"صنايعي — خدمات منزل",c:"خدمات",cat:"خدمات",live:true,f:"D:/AR - عروض/صنايعي-خدمات-منزل.html"},
+{t:"فريم — استوديو تصوير",c:"تصوير",cat:"خدمات",live:true,f:"D:/AR - عروض/فريم-استوديو-تصوير.html"},
+{t:"الأسطى — صالون",c:"صالون",cat:"خدمات",live:true,f:"D:/AR - عروض/الأسطى-صالون.html"},
+{t:"لمسة — صالون",c:"صالون",cat:"خدمات",live:true,f:"D:/AR - عروض/لمسة-صالون.html"},
+{t:"سالوني — صالون",c:"صالون",cat:"خدمات",live:true,f:"D:/AR - عروض/سالوني-صالون.html"},
+{t:"أوتيليه لمسة — خياطة",c:"خياطة",cat:"خدمات",live:true,f:"D:/AR - عروض/أوتيليه-لمسة-خياطة.html"},
+{t:"مناسباتنا — أفراح",c:"مناسبات",cat:"خدمات",live:true,f:"D:/AR - عروض/مناسباتنا-أفراح.html"},
+{t:"يوسف وملك — دعوة زفاف",c:"زفاف",cat:"خدمات",live:true,f:"D:/AR - عروض/يوسف-وملك-دعوة-زفاف.html"},
+{t:"مطبعة الإبداع — طباعة",c:"مطابع",cat:"خدمات",live:true,f:"D:/AR - عروض/مطبعة-الإبداع.html"},
+{t:"مطبعة برو — مطابع",c:"مطابع",cat:"خدمات",live:true,f:"D:/AR - عروض/مطبعة-برو.html"},
+{t:"مكتب محاماة — إدارة",c:"قانون",cat:"قانون",live:true,f:"D:/AR - عروض/مكتب-محاماة-إدارة.html"},
+{t:"عدل — مكتب محاماة",c:"قانون",cat:"قانون",live:true,f:"D:/AR - عروض/عدل-مكتب-محاماة.html"},
+{t:"دروسي — إدارة دروس",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/دروسي-إدارة-دروس.html"},
+{t:"دروس — سنتر خصوصي",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/دروس-سنتر-خصوصي.html"},
+{t:"نبوغ — دروس خصوصية",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/نبوغ-دروس-خصوصية.html"},
+{t:"لغتي — معهد لغات",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/لغتي-معهد-لغات.html"},
+{t:"منهج — تعلّم رقمي",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/منهج-تعلّم-رقمي.html"},
+{t:"نغم — أكاديمية موسيقى",c:"تعليم",cat:"تعليم",live:true,f:"D:/AR - عروض/نغم-أكاديمية-موسيقى.html"},
+{t:"دقيقة — توصيل سريع",c:"توصيل",cat:"لوجستيات",live:true,f:"D:/AR - عروض/دقيقة-توصيل-سريع.html"},
+{t:"ناقل — شحن",c:"شحن",cat:"لوجستيات",live:true,f:"D:/AR - عروض/ناقل-شحن.html"},
+{t:"نقل إكسبرس",c:"نقل",cat:"لوجستيات",live:true,f:"D:/AR - عروض/نقل-إكسبرس.html"},
+{t:"نقلي — لوجستيات",c:"لوجستيات",cat:"لوجستيات",live:true,f:"D:/AR - عروض/نقلي-لوجستيات.html"},
+{t:"وصلها — شحن",c:"شحن",cat:"لوجستيات",live:true,f:"D:/AR - عروض/وصلها-شحن.html"},
+{t:"فالكون — إسعاف",c:"إسعاف",cat:"طبي",live:true,f:"D:/AR - عروض/فالكون-إسعاف.html"},
+{t:"ميد فلو — حجز طبي",c:"حجز",cat:"طبي",live:true,f:"D:/AR - عروض/ميد-فلو-حجز-طبي.html"},
+{t:"ميد كور — مستشفى",c:"مستشفى",cat:"طبي",live:true,f:"D:/AR - عروض/ميد-كور-مستشفى.html"},
+{t:"نايل كير — مطالبات",c:"تأمين",cat:"طبي",live:true,f:"D:/AR - عروض/نايل-كير-مطالبات.html"},
+{t:"بل — عناية مركزة",c:"عناية",cat:"طبي",live:true,f:"D:/AR - عروض/بل-عناية-مركزة.html"},
+{t:"معينك — إيجار أجهزة",c:"إيجار",cat:"طبي",live:true,f:"D:/AR - عروض/معينك-إيجار-أجهزة.html"},
+{t:"منصة — بيانات طبية",c:"بيانات",cat:"طبي",live:true,f:"D:/AR - عروض/منصة-بيانات-طبية.html"},
+{t:"نظام علاقة مرضى",c:"علاقة",cat:"طبي",live:true,f:"D:/AR - عروض/نظام-علاقة-مرضى.html"},
+{t:"أورفيتا — بوابة مرضى",c:"بوابة",cat:"طبي",live:true,f:"D:/AR - عروض/أورفيتا-بوابة-مرضى.html"},
+{t:"يناكل — عيادة أسنان",c:"أسنان",cat:"طبي",live:true,f:"D:/AR - عروض/يناكل-عيادة-أسنان.html"},
+{t:"عيادتي — أسنان",c:"أسنان",cat:"طبي",live:true,f:"D:/AR - عروض/عيادتي-أسنان.html"},
+{t:"عيادتي — طب منزلي",c:"منزلي",cat:"طبي",live:true,f:"D:/AR - عروض/عيادتي-طب-منزلي.html"},
+{t:"ابتسامة — عيادة منزلي",c:"منزلي",cat:"طبي",live:true,f:"D:/AR - عروض/ابتسامة-عيادة-منزلي.html"},
+{t:"فروعي — نظام عيادات",c:"عيادات",cat:"طبي",live:true,f:"D:/AR - عروض/فروعي-نظام-عيادات.html"},
+{t:"ورين — عيادة",c:"عيادة",cat:"طبي",live:true,f:"D:/AR - عروض/ورين-عيادة.html"},
+{t:"أليف — عيادة بيطرية",c:"بيطرية",cat:"طبي",live:true,f:"D:/AR - عروض/أليف-عيادة-بيطرية.html"},
+{t:"رفيق — عيادة بيطرية",c:"بيطرية",cat:"طبي",live:true,f:"D:/AR - عروض/رفيق-بيطرية.html"},
+{t:"حركة — علاج طبيعي",c:"علاج",cat:"طبي",live:true,f:"D:/AR - عروض/حركة-علاج-طبيعي.html"},
+{t:"توازن — تغذية",c:"تغذية",cat:"صحة",live:true,f:"D:/AR - عروض/توازن-تغذية.html"},
+{t:"كوتش — استوديو",c:"رياضة",cat:"رياضة",live:true,f:"D:/AR - عروض/كوتش-استوديو.html"},
+{t:"نبض — جيم",c:"جيم",cat:"رياضة",live:true,f:"D:/AR - عروض/نبض-جيم.html"},
+{t:"نبض — نادي رياضي",c:"نادِ",cat:"رياضة",live:true,f:"D:/AR - عروض/نبض-نادِ-رياضي.html"},
+{t:"نادي فيت — إدارة",c:"نادي",cat:"رياضة",live:true,f:"D:/AR - عروض/نادي-فيت-إدارة.html"},
+{t:"آيرون كوتش — جيم",c:"جيم",cat:"رياضة",live:true,f:"D:/AR - عروض/آيرون-كوتش-جيم.html"},
+{t:"فنجان — كافيه",c:"كافيه",cat:"مطاعم",live:true,f:"D:/AR - عروض/فنجان-كافيه.html"},
+{t:"قرص — مخبوزات",c:"مخبوزات",cat:"مطاعم",live:true,f:"D:/AR - عروض/قرص-مخبوزات.html"},
+{t:"طبق — مطعم",c:"مطعم",cat:"مطاعم",live:true,f:"D:/AR - عروض/طبق-مطعم.html"},
+{t:"مطبخ — لوحة تحكم",c:"مطبخ",cat:"مطاعم",live:true,f:"D:/AR - عروض/مطبخ-لوحة-تحكم.html"},
+{t:"مشرق — سياحة",c:"سياحة",cat:"سفر",live:true,f:"D:/AR - عروض/مشرق-سياحة.html"},
+{t:"رحلتي — سياحة",c:"سياحة",cat:"سفر",live:true,f:"D:/AR - عروض/رحلتي-سياحة.html"},
+{t:"نُزل — فنادق",c:"فنادق",cat:"سفر",live:true,f:"D:/AR - عروض/نُزل-فنادق.html"},
+{t:"وكالة سياحة — إدارة",c:"وكالة",cat:"سفر",live:true,f:"D:/AR - عروض/وكالة-سياحة-إدارة.html"},
+{t:"رفيق — مساعد يومي",c:"مساعد",cat:"تطبيقات",live:true,f:"D:/AR - عروض/رفيق-مساعد-يومي.html"},
+{t:"ورد — رفيق ديني",c:"ديني",cat:"تطبيقات",live:true,f:"D:/AR - عروض/ورد-رفيق-ديني.html"},
+{t:"Vitalis — Telemedicine",c:"vitalis",cat:"طبي",live:true,f:"D:/AR - عروض/vitalis-telemedicine-room.html"},
+// === DEMOS (MR folders - empty) ===
+{t:"Adl Law Firm",c:"MR1",cat:"قانون",live:true,f:"D:/برتفوليو الديمو/MR1 - Adl Law Firm/index.html"},
+{t:"Ahmed Sadek CV",c:"MR2",cat:"شخصي",live:true,f:"D:/برتفوليو الديمو/MR2 - Ahmed Sadek CV/index.html"},
+{t:"AI Automation Space",c:"MR3",cat:"أتمتة",live:true,f:"D:/برتفوليو الديمو/MR3 - Ai Automation Space Presentation/index.html"},
+{t:"Al Attar Pharmacy",c:"MR4",cat:"صيدلية",live:true,f:"D:/برتفوليو الديمو/MR4 - Al Attar Pharmacy Dashboard/index.html"},
+{t:"Alief Vet Clinic",c:"MR5",cat:"بيطرية",live:true,f:"D:/برتفوليو الديمو/MR5 - Alief Vet Clinic/index.html"},
+{t:"Apotheca Pharmacy",c:"MR6",cat:"صيدلية",live:true,f:"D:/برتفوليو الديمو/MR6 - Apotheca Pharmacy Pos/index.html"},
+{t:"Aqari",c:"MR7",cat:"عقارات",live:true,f:"D:/برتفوليو الديمو/MR7 - Aqari/index.html"},
+{t:"Aqari Real Estate",c:"MR8",cat:"عقارات",live:true,f:"D:/برتفوليو الديمو/MR8 - Aqari Real Estate/index.html"},
+{t:"Arabeytak Car",c:"MR9",cat:"سيارات",live:true,f:"D:/برتفوليو الديمو/MR9 - Arabeytak Car Marketplace/index.html"},
+{t:"Atelier Lamsa",c:"MR10",cat:"خياطة",live:true,f:"D:/برتفوليو الديمو/MR10 - Atelier Lamsa/index.html"},
+{t:"Athasy Furniture",c:"MR11",cat:"أثاث",live:true,f:"D:/برتفوليو الديمو/MR11 - Athasy Furniture Store/index.html"},
+{t:"Attar Al Sharq",c:"MR12",cat:"عطور",live:true,f:"D:/برتفوليو الديمو/MR12 - Attar Al Sharq/index.html"},
+{t:"AURA",c:"MR13",cat:"تطبيق",live:true,f:"D:/برتفوليو الديمو/MR13 - AURA/index.html"},
+{t:"Auravita Patient",c:"MR14",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR14 - Auravita Patient Portal/index.html"},
+{t:"Barber Brand System",c:"MR15",cat:"صالون",live:true,f:"D:/برتفوليو الديمو/MR15 - Barber Brand System/index.html"},
+{t:"Barber Empire",c:"MR16",cat:"صالون",live:true,f:"D:/برتفوليو الديمو/MR16 - Barber Empire/index.html"},
+{t:"Car Rental OS",c:"MR17",cat:"سيارات",live:true,f:"D:/برتفوليو الديمو/MR17 - Car Rental Os/index.html"},
+{t:"Clinic OS",c:"MR18",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR18 - Clinic Os/index.html"},
+{t:"Coach App",c:"MR19",cat:"رياضة",live:true,f:"D:/برتفوليو الديمو/MR19 - Coach App/index.html"},
+{t:"Content Machine",c:"MR20",cat:"محتوى",live:true,f:"D:/برتفوليو الديمو/MR20 - Content Machine/index.html"},
+{t:"Craft Brand OS",c:"MR21",cat:"براند",live:true,f:"D:/برتفوليو الديمو/MR21 - Craft Brand Os AR/index.html"},
+{t:"Daqeeqa Quick",c:"MR22",cat:"توصيل",live:true,f:"D:/برتفوليو الديمو/MR22 - Daqeeqa Quickcommerce App/index.html"},
+{t:"Dawa Wedding",c:"MR23",cat:"مناسبات",live:true,f:"D:/برتفوليو الديمو/MR23 - Dawa Wedding Invitation/index.html"},
+{t:"Delivery OS",c:"MR24",cat:"توصيل",live:true,f:"D:/برتفوليو الديمو/MR24 - Delivery Os Presentation/index.html"},
+{t:"Delivery System",c:"MR25",cat:"توصيل",live:true,f:"D:/برتفوليو الديمو/MR25 - Delivery System/index.html"},
+{t:"Doctor Demos",c:"MR26",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR26 - Doctor Demos/index.html"},
+{t:"Dorosi Tutor",c:"MR27",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR27 - Dorosi Tutor Manager/index.html"},
+{t:"Dros",c:"MR28",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR28 - Dros/index.html"},
+{t:"El Osta Barber",c:"MR29",cat:"صالون",live:true,f:"D:/برتفوليو الديمو/MR29 - El Osta Barbershop App/index.html"},
+{t:"Elegance Boutique",c:"MR30",cat:"أزياء",live:true,f:"D:/برتفوليو الديمو/MR30 - Elegance Boutique/index.html"},
+{t:"Enamel Dental",c:"MR31",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR31 - Enamel Dental Dashboard/index.html"},
+{t:"Eyadaty Solo",c:"MR32",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR32 - Eyadaty Solo Practice/index.html"},
+{t:"Falcon EMS",c:"MR33",cat:"إسعاف",live:true,f:"D:/برتفوليو الديمو/MR33 - Falcon Ems Dispatch/index.html"},
+{t:"Fatoora Pro",c:"MR34",cat:"فواتير",live:true,f:"D:/برتفوليو الديمو/MR34 - Fatoora Pro Demo/index.html"},
+{t:"Fatoorati",c:"MR35",cat:"فواتير",live:true,f:"D:/برتفوليو الديمو/MR35 - Fatoorati Invoice Tool/index.html"},
+{t:"Fengan Cafe",c:"MR36",cat:"كافيه",live:true,f:"D:/برتفوليو الديمو/MR36 - Fengan Cafe Dashboard/index.html"},
+{t:"Freim Photo",c:"MR37",cat:"تصوير",live:true,f:"D:/برتفوليو الديمو/MR37 - Freim Photography Studio/index.html"},
+{t:"Froui Clinic",c:"MR38",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR38 - Froui Clinic Saas/index.html"},
+{t:"Grocery POS",c:"MR39",cat:"سوبرماركت",live:true,f:"D:/برتفوليو الديمو/MR39 - Grocery Pos/index.html"},
+{t:"Haraka Physio",c:"MR40",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR40 - Haraka Physio App/index.html"},
+{t:"Hubspace",c:"MR41",cat:"مساحات",live:true,f:"D:/برتفوليو الديمو/MR41 - Hubspace/index.html"},
+{t:"Ibtisama App",c:"MR42",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR42 - Ibtisama App/index.html"},
+{t:"Iron Coach Gym",c:"MR43",cat:"رياضة",live:true,f:"D:/برتفوليو الديمو/MR43 - Iron Coach Gym Manager/index.html"},
+{t:"Kitchen Board",c:"MR44",cat:"مطاعم",live:true,f:"D:/برتفوليو الديمو/MR44 - Kitchen Board/index.html"},
+{t:"Lamha Optician",c:"MR45",cat:"نظارات",live:true,f:"D:/برتفوليو الديمو/MR45 - Lamha Optician App/index.html"},
+{t:"Lamsa Interior",c:"MR46",cat:"تصميم",live:true,f:"D:/برتفوليو الديمو/MR46 - Lamsa Interior Design/index.html"},
+{t:"Lamsa Salon",c:"MR47",cat:"صالون",live:true,f:"D:/برتفوليو الديمو/MR47 - Lamsa Salon Dashboard/index.html"},
+{t:"Lava Station",c:"MR48",cat:"وقود",live:true,f:"D:/برتفوليو الديمو/MR48 - Lava Station/index.html"},
+{t:"Law Firm OS",c:"MR49",cat:"قانون",live:true,f:"D:/برتفوليو الديمو/MR49 - Law Firm Os/index.html"},
+{t:"Loghaty Lang",c:"MR50",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR50 - Loghaty Language Institute/index.html"},
+{t:"Luxe Todo",c:"MR51",cat:"تطبيق",live:true,f:"D:/برتفوليو الديمو/MR51 - Luxe Todo Interactive Demo/index.html"},
+{t:"Manhaj Learn",c:"MR52",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR52 - Manhaj Elearning Platform/index.html"},
+{t:"Mashwar Travel",c:"MR53",cat:"سياحة",live:true,f:"D:/برتفوليو الديمو/MR53 - Mashwar Travel/index.html"},
+{t:"Matbaa Pro",c:"MR54",cat:"مطابع",live:true,f:"D:/برتفوليو الديمو/MR54 - Matbaa Pro/index.html"},
+{t:"Medcore Hospital",c:"MR55",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR55 - Medcore Hospital Dashboard/index.html"},
+{t:"Medflow Booking",c:"MR56",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR56 - Medflow Booking Platform/index.html"},
+{t:"Medical BI",c:"MR57",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR57 - Medical Bi Platform/index.html"},
+{t:"Medical CRM",c:"MR58",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR58 - Medical Crm Platform/index.html"},
+{t:"Menu Pizza",c:"MR59",cat:"مطاعم",live:true,f:"D:/برتفوليو الديمو/MR59 - Menu Pizza Slice/index.html"},
+{t:"Meridian Diagnostics",c:"MR60",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR60 - Meridian Diagnostics/index.html"},
+{t:"Meridian Health",c:"MR61",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR61 - Meridian Health/index.html"},
+{t:"Mobile Repair",c:"MR62",cat:"صيانة",live:true,f:"D:/برتفوليو الديمو/MR62 - Mobile Repair Os/index.html"},
+{t:"Monasabatna",c:"MR63",cat:"مناسبات",live:true,f:"D:/برتفوليو الديمو/MR63 - Monasabatna Events/index.html"},
+{t:"Motor Garage",c:"MR64",cat:"ورشة",live:true,f:"D:/برتفوليو الديمو/MR64 - Motor Garage App/index.html"},
+{t:"Mu3eenak",c:"MR65",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR65 - Mu3eenak Equipment Rental/index.html"},
+{t:"Muzad",c:"MR66",cat:"تجارة",live:true,f:"D:/برتفوليو الديمو/MR66 - Muzad/index.html"},
+{t:"Nabd Fitness",c:"MR67",cat:"رياضة",live:true,f:"D:/برتفوليو الديمو/MR67 - Nabd Fitness/index.html"},
+{t:"Nabd Gym",c:"MR68",cat:"رياضة",live:true,f:"D:/برتفوليو الديمو/MR68 - Nabd Gym Dashboard/index.html"},
+{t:"Nadi Fit",c:"MR69",cat:"رياضة",live:true,f:"D:/برتفوليو الديمو/MR69 - Nadi Fit/index.html"},
+{t:"Nagham Academy",c:"MR70",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR70 - Nagham Academy/index.html"},
+{t:"Naklety Moving",c:"MR71",cat:"لوجستيات",live:true,f:"D:/برتفوليو الديمو/MR71 - Naklety Moving Logistics/index.html"},
+{t:"Naqel Logistics",c:"MR72",cat:"لوجستيات",live:true,f:"D:/برتفوليو الديمو/MR72 - Naqel Logistics/index.html"},
+{t:"Naql Express",c:"MR73",cat:"لوجستيات",live:true,f:"D:/برتفوليو الديمو/MR73 - Naql Express/index.html"},
+{t:"Nexora",c:"MR74",cat:"نيكسيرا",live:true,f:"D:/برتفوليو الديمو/MR74 - Nexora/index.html"},
+{t:"Nilecare Claims",c:"MR75",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR75 - Nilecare Claims Portal/index.html"},
+{t:"Nuboogh Tutor",c:"MR76",cat:"تعليم",live:true,f:"D:/برتفوليو الديمو/MR76 - Nuboogh Tutor App/index.html"},
+{t:"Nuzul Hotel",c:"MR77",cat:"فنادق",live:true,f:"D:/برتفوليو الديمو/MR77 - Nuzul Hotel/index.html"},
+{t:"Premium Todo",c:"MR78",cat:"تطبيق",live:true,f:"D:/برتفوليو الديمو/MR78 - Premium Todo App Ui/index.html"},
+{t:"Print Shop",c:"MR79",cat:"مطابع",live:true,f:"D:/برتفوليو الديمو/MR79 - Print Shop Os/index.html"},
+{t:"Product Engine",c:"MR80",cat:"تسويق",live:true,f:"D:/برتفوليو الديمو/MR80 - Product Expansion Engine/index.html"},
+{t:"Pulse ICU",c:"MR81",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR81 - Pulse Icu Monitoring/index.html"},
+{t:"Qors Bakery",c:"MR82",cat:"مخبوزات",live:true,f:"D:/برتفوليو الديمو/MR82 - Qors Bakery App/index.html"},
+{t:"Qumasha Boutique",c:"MR83",cat:"أزياء",live:true,f:"D:/برتفوليو الديمو/MR83 - Qumasha Boutique App/index.html"},
+{t:"Rafiq App",c:"MR84",cat:"تطبيق",live:true,f:"D:/برتفوليو الديمو/MR84 - Rafiq App/index.html"},
+{t:"Rafiq Veterinary",c:"MR85",cat:"بيطرية",live:true,f:"D:/برتفوليو الديمو/MR85 - Rafiq Veterinary Clinic/index.html"},
+{t:"Rehlaty Travel",c:"MR86",cat:"سياحة",live:true,f:"D:/برتفوليو الديمو/MR86 - Rehlaty Travel Agency/index.html"},
+{t:"Saas Master Pro",c:"MR87",cat:"SaaS",live:true,f:"D:/برتفوليو الديمو/MR87 - Saas Master Pro — Mohamed Sadek/index.html"},
+{t:"Sakan Real Estate",c:"MR88",cat:"عقارات",live:true,f:"D:/برتفوليو الديمو/MR88 - Sakan Real Estate/index.html"},
+{t:"Saloni Salon",c:"MR89",cat:"صالون",live:true,f:"D:/برتفوليو الديمو/MR89 - Saloni Salon Manager/index.html"},
+{t:"Sanay3i Home",c:"MR90",cat:"خدمات",live:true,f:"D:/برتفوليو الديمو/MR90 - Sanay3i Home Services App/index.html"},
+{t:"Selim",c:"MR91",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR91 - Selim/index.html"},
+{t:"ShadowX",c:"MR92",cat:"تقنية",live:true,f:"D:/برتفوليو الديمو/MR92 - ShadowX/index.html"},
+{t:"Shifaa Pharmacy",c:"MR93",cat:"صيدلية",live:true,f:"D:/برتفوليو الديمو/MR93 - Shifaa Pharmacy/index.html"},
+{t:"Showroom Elite",c:"MR94",cat:"سيارات",live:true,f:"D:/برتفوليو الديمو/MR94 - Showroom Elite/index.html"},
+{t:"Social Covers",c:"MR95",cat:"تصميم",live:true,f:"D:/برتفوليو الديمو/MR95 - Social Media Covers/index.html"},
+{t:"Supermart",c:"MR96",cat:"سوبرماركت",live:true,f:"D:/برتفوليو الديمو/MR96 - Supermart/index.html"},
+{t:"Tabaq Restaurant",c:"MR97",cat:"مطاعم",live:true,f:"D:/برتفوليو الديمو/MR97 - Tabaq Restaurant App/index.html"},
+{t:"Tashteeb Contract",c:"MR98",cat:"مقاولات",live:true,f:"D:/برتفوليو الديمو/MR98 - Tashteeb Contractor App/index.html"},
+{t:"Tawazun Nutrition",c:"MR99",cat:"صحة",live:true,f:"D:/برتفوليو الديمو/MR99 - Tawazun Nutrition App/index.html"},
+{t:"Tijara Global",c:"MR100",cat:"تجارة",live:true,f:"D:/برتفوليو الديمو/MR100 - Tijara Global/index.html"},
+{t:"Tijarti",c:"MR101",cat:"تجارة",live:true,f:"D:/برتفوليو الديمو/MR101 - Tijarti/index.html"},
+{t:"Travel Agency",c:"MR102",cat:"سياحة",live:true,f:"D:/برتفوليو الديمو/MR102 - Travel Agency Os/index.html"},
+{t:"Vexoria",c:"MR103",cat:"تقنية",live:true,f:"D:/برتفوليو الديمو/MR103 - Vexoria/index.html"},
+{t:"Vitalis Telemed",c:"MR104",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR104 - Vitalis Telemedicine Room/index.html"},
+{t:"Vortix Landing",c:"MR105",cat:"هبوط",live:true,f:"D:/برتفوليو الديمو/MR105 - Vortix Landing/index.html"},
+{t:"Warsha",c:"MR106",cat:"ورشة",live:true,f:"D:/برتفوليو الديمو/MR106 - Warsha/index.html"},
+{t:"Warsha App",c:"MR107",cat:"ورشة",live:true,f:"D:/برتفوليو الديمو/MR107 - Warsha App/index.html"},
+{t:"Warshety",c:"MR108",cat:"ورشة",live:true,f:"D:/برتفوليو الديمو/MR108 - Warshety Car Workshop/index.html"},
+{t:"Wasalha",c:"MR109",cat:"شحن",live:true,f:"D:/برتفوليو الديمو/MR109 - Wasalha Logistics Dashboard/index.html"},
+{t:"Wird Islamic",c:"MR110",cat:"ديني",live:true,f:"D:/برتفوليو الديمو/MR110 - Wird Islamic Companion App/index.html"},
+{t:"Wren Clinic",c:"MR111",cat:"طبي",live:true,f:"D:/برتفوليو الديمو/MR111 - Wren Clinic Landing/index.html"}
+];
+
+const catClasses={'طبي':'cat-medical','نيكسيرا':'cat-web','ميريديان':'cat-medical','تجارة':'cat-commerce','قانون':'cat-services','تعليم':'cat-education','لوجستيات':'cat-travel','سفر':'cat-travel','رياضة':'cat-sports','مطاعم':'cat-food','خدمات':'cat-services','سيارات':'cat-web','ورشة':'cat-services','صيدلية':'cat-commerce','عقارات':'cat-commerce','مناسبات':'cat-services','تصوير':'cat-services','صالون':'cat-services','فواتير':'cat-commerce','صيانة':'cat-services','خياطة':'cat-services','أزياء':'cat-commerce','شخصي':'cat-services','أتمتة':'cat-web','تطبيق':'cat-medical','محتوى':'cat-web','براند':'cat-web','وقود':'cat-services','مساحات':'cat-services','تصميم':'cat-services','مقاولات':'cat-services','هبوط':'cat-web','SaaS':'cat-web','مخبوزات':'cat-food','نظارات':'cat-commerce','بيطرية':'cat-medical','إسعاف':'cat-medical','نادِ':'cat-sports',' Leone':'cat-services'}
+
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const filtersEl=document.getElementById('filters');
+const counter=document.getElementById('counter');
+const tabs=document.querySelectorAll('.tab');
+
+let activeTab='all';
+let activeCat='الكل';
+
+const liveCount=allProjects.filter(p=>p.live).length;
+const demoCount=allProjects.filter(p=>!p.live).length;
+const cats=[...new Set(allProjects.map(p=>p.cat))].sort();
+
+document.getElementById('stat-total').textContent=allProjects.length;
+document.getElementById('stat-live').textContent=liveCount;
+document.getElementById('stat-demo').textContent=demoCount;
+document.getElementById('stat-cats').textContent=cats.length;
+
+filtersEl.innerHTML='<button class="filter-btn active" data-cat="الكل">الكل</button>'+
+cats.map(c=>'<button class="filter-btn" data-cat="'+c+'">'+c+'</button>').join('');
+
+filtersEl.addEventListener('click',e=>{
+if(!e.target.classList.contains('filter-btn'))return;
+document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+e.target.classList.add('active');
+activeCat=e.target.dataset.cat;
+render();
+});
+
+tabs.forEach(tab=>{
+tab.addEventListener('click',()=>{
+tabs.forEach(t=>t.classList.remove('active'));
+tab.classList.add('active');
+activeTab=tab.dataset.tab;
+render();
+});
+});
+
+function render(){
+const q=search.value.toLowerCase();
+const filtered=allProjects.filter(p=>{
+const matchSearch=!q||p.t.toLowerCase().includes(q)||p.c.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q);
+let matchTab=true;
+if(activeTab==='live')matchTab=p.live;
+else if(activeTab==='demo')matchTab=!p.live;
+let matchCat=activeCat==='الكل'||p.cat===activeCat;
+return matchSearch&&matchTab&&matchCat;
+});
+
+counter.textContent='عرض '+filtered.length+' من '+allProjects.length;
+
+grid.innerHTML=filtered.map(p=>{
+const catClass=catClasses[p.cat]||'cat-web';
+const badgeClass=p.live?'cat-live':'cat-demo';
+const badgeText=p.live?'تفاعلي':'ديمو';
+if(p.live&&p.f){
+return'<a class="card" href="'+p.f+'" target="_blank">'+
+'<div class="card-preview"><iframe src="'+p.f+'" loading="lazy"></iframe></div>'+
+'<div class="card-info">'+
+'<div class="card-title">'+p.t+'</div>'+
+'<div class="card-meta">'+
+'<span class="card-category '+catClass+'">'+p.cat+'</span>'+
+'<span class="card-category '+badgeClass+'">'+badgeText+'</span>'+
+'</div>'+
+'</div>'+
+'</a>';
+}else{
+return'<div class="card">'+
+'<div class="card-info">'+
+'<div class="card-title">'+p.t+'</div>'+
+'<div class="card-meta">'+
+'<span class="card-category '+catClass+'">'+p.cat+'</span>'+
+'<span class="card-category '+badgeClass+'">'+badgeText+'</span>'+
+'</div>'+
+'</div>'+
+'</div>';
+}
+}).join('');
+}
+
+search.addEventListener('input',render);
+render();
+</script>
+</body>
+</html>
